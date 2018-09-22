@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "766254152594",
+    "firebase_url": "https://healthy-71b70.firebaseio.com",
+    "project_id": "healthy-71b70",
+    "storage_bucket": "healthy-71b70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766254152594:android:4db763f542164d7b",
+        "android_client_info": {
+          "package_name": "com.nawinc27.mac.healthy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766254152594-54lk0auqri4gt55a8operd1vpubamtcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnuiAPfHY5oibo1oYZu-Zmw8GqA-lMsHA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

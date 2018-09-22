@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <EditText
+            android:drawableLeft="@drawable/ic_lock"
+            android:hint="@string/height_bmi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:id="@+id/height_Bmi" />
+        <EditText
+            android:drawableLeft="@drawable/ic_lock"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="10dp"
+            android:hint="@string/weight_bmi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/weight_Bmi" />
+        <Button
+            android:layout_marginTop="20dp"
+            android:text="@string/calculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cal_Btn" />
+        <TextView
+            android:id="@+id/result_BMI"
+            android:text="No Calculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:paddingTop="90dp"
+            android:paddingBottom="90dp"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

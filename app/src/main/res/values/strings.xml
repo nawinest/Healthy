@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Healthy</string>
+    <string name="password">Password</string>
+    <string name="user_id">User ID</string>
+    <string name="weight_bmi">Weight (Kg)</string>
+    <string name="height_bmi">Height (Kg)</string>
+    <string name="calculate">CALCULATE</string>
+
+
+
+</resources>

@@ -15,12 +15,13 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.nawinc27.mac.healthy.R;
 
 public class WeightFormFragment extends Fragment{
-    FirebaseFirestore _firestore;
-    FirebaseAuth _auth;
-
+    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String uid;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -33,7 +34,7 @@ public class WeightFormFragment extends Fragment{
             }
         });
 
-
+        uid = currentFirebaseUser.getUid().toString();
         Button _saveBtn = (Button) getView().findViewById(R.id.savebtn_weightForm);
         _saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,35 +45,29 @@ public class WeightFormFragment extends Fragment{
                 String _dateString = _date.getText().toString();
                 String _weightString = _weight.getText().toString();
 
-                String _uid = _auth.getCurrentUser().getUid();
-
-                Weight _data = new Weight(_dateString,_weightString);
-
-                _firestore.collection("myfitness")
-                        .document(_uid).collection("weight")
+                //Create Fire Store
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                //Get Weight Obj
+                final Weight weightStore = new Weight(_date.getText().toString(),Float.parseFloat(_weightString), "-");
+                //Send Data To Database
+                db.collection("myfitness")
+                        .document(uid)
+                        .collection("weight")
                         .document(_dateString)
-                        .set(_data)
+                        .set(weightStore)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-
-
+                                Toast.makeText(getActivity(), "เพิ่มข้อมูลเรียบร้อยแล้ว", Toast.LENGTH_LONG).show();
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new WeightFragment()).addToBackStack(null).commit();
                             }
-
-
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("WeightForm","onFailExceptionCollection");
-                        Toast.makeText(getActivity() , "กรุณาลองใหม่อีกครั้ง" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_view, new WeightFragment())
-                        .addToBackStack(null)
-                        .commit();
             }
         });
     }

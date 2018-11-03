@@ -101,7 +101,6 @@ public class WeightFragment extends Fragment {
 
     private ArrayList<Weight> checkStatus(ArrayList<Weight> weightStore) {
         this.uid = _user.getUid();
-
         for (int i = 1; i < weightStore.size(); i++) {
             if (weightStore.get(i - 1).getWeight() > weightStore.get(i).getWeight()) {
                 weightStore.get(i).setStatus("Down");

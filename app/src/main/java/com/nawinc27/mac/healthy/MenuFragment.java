@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.nawinc27.mac.healthy.Sleep.SleepFragment;
 import com.nawinc27.mac.healthy.Weight.WeightFragment;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class MenuFragment extends Fragment {
         menu.add("BMI");
         menu.add("Weight");
         menu.add("Setup");
+        menu.add("Sleep");
         menu.add("Sign Out");
     }
 
@@ -50,7 +52,11 @@ public class MenuFragment extends Fragment {
                     Log.d("USER","Sign out from firebase auth");
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     mAuth.signOut();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view,new LoginFragment()).commit();                }
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view,new LoginFragment()).commit();
+                } else if (_menuP.equals("Sleep")){
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view,new SleepFragment()).commit();
+
+                }
             }
         });
     }

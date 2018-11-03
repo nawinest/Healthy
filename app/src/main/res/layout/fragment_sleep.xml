@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="< Back"
+        android:text="Back"
         app:layout_constraintStart_toStartOf="@+id/add_sleep_btn"
         app:layout_constraintTop_toBottomOf="@+id/add_sleep_btn" />
 
@@ -52,7 +52,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="clear database"
+        android:text="clear"
         app:layout_constraintBottom_toBottomOf="@+id/back_sleep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/back_sleep"

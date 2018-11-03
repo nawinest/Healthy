@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.nawinc27.mac.healthy.MenuFragment;
 import com.nawinc27.mac.healthy.R;
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class SleepFragment extends Fragment {
         sleep_list.setAdapter(adapter);
         adapter.clear();
 
-        SQLiteDatabase db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
+        final SQLiteDatabase db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
         Cursor pointer_query = db.rawQuery("select * from sleep_table", null);
         while (pointer_query.moveToNext()){
             String date = pointer_query.getString(1);
@@ -69,6 +71,26 @@ public class SleepFragment extends Fragment {
             }
         });
 
-        Button backbtm = getView().findViewById(R.id.back_sleep);
+        Button backbtn = getView().findViewById(R.id.back_sleep);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new MenuFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        Button clr_history = getView().findViewById(R.id.clear_database);
+        clr_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.execSQL("delete from sleep_table");
+                sleeps.clear();
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }

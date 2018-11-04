@@ -23,13 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/password_signup" />
+
         <EditText
-            android:drawableLeft="@drawable/ic_lock"
-            android:layout_marginTop="10dp"
-            android:hint="Password again"
+            android:id="@+id/password_signup_again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/password_signup_again" />
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_lock"
+            android:hint="Password again"
+            android:inputType="textPassword" />
 
         <Button
             android:layout_marginTop="20dp"

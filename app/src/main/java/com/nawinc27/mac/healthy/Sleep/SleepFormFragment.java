@@ -54,8 +54,17 @@ public class SleepFormFragment extends Fragment{
             TextView sleep_date = ((TextView)getView().findViewById(R.id.date_sleep));
             EditText sleep_start = ((EditText)getView().findViewById(R.id.start_sleep));
             EditText sleep_wakeup = ((EditText)getView().findViewById(R.id.wakeup_time_sleep));
-            db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
 
+            db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
+            String selectQuery = "SELECT * FROM sleep_table WHERE _id = " + id;
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+            //0: id , 1 :date , 2 :sleeptime ,3 : wakeuptime , 4 : duration
+            sleep_date.setText(cursor.getString(1));
+            sleep_start.setText(cursor.getString(2));
+            sleep_wakeup.setText(cursor.getString(3));
         }
 
 
@@ -92,8 +101,6 @@ public class SleepFormFragment extends Fragment{
                 String sleep_date = ((TextView)getView().findViewById(R.id.date_sleep)).getText().toString();
                 String sleep_start = ((EditText)getView().findViewById(R.id.start_sleep)).getText().toString();
                 String sleep_wakeup = ((EditText)getView().findViewById(R.id.wakeup_time_sleep)).getText().toString();
-
-
                 Log.d("Sleep Form", "sleep_date : " + sleep_date);
 
                 //create content

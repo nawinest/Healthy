@@ -35,8 +35,6 @@ public class SleepFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
         final ListView sleep_list = getView().findViewById(R.id.sleeptime_list);
         final SleepAdapter adapter = new SleepAdapter(
                 getActivity(),
@@ -47,7 +45,10 @@ public class SleepFragment extends Fragment {
         sleep_list.setAdapter(adapter);
         adapter.clear();
 
+
+        //get database
         final SQLiteDatabase db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
+        //query from database by table sleep_table [cursor]
         Cursor pointer_query = db.rawQuery("select * from sleep_table", null);
         while (pointer_query.moveToNext()){
             int id = pointer_query.getInt(0);
@@ -56,11 +57,11 @@ public class SleepFragment extends Fragment {
             String wakeuptime = pointer_query.getString(3);
             String duration  = pointer_query.getString(4);
             String sleeptowake = sleeptime + " - " + wakeuptime;
-            sleeps.add(new Sleep_info(id, date, sleeptowake , duration));
+            sleeps.add(new Sleep_info(id, date, sleeptowake , duration)); // add to sleeps [ array of sleep_info]
         }
 
 
-
+        //sort arraylist by use .sort from arrayadapter to sort by date
         adapter.sort(new Comparator<Sleep_info>() {
             @Override
             public int compare(Sleep_info o1, Sleep_info o2) {
@@ -68,11 +69,12 @@ public class SleepFragment extends Fragment {
             }
         });
 
-
+        //set event listener for update user's history sleep time
         sleep_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Sleep_info sleep_item = (Sleep_info) parent.getItemAtPosition(position);
+                //create bundle for pass argument to next Fragment
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", sleep_item.getId());
                 SleepFormFragment sleepform = new SleepFormFragment();
@@ -86,7 +88,7 @@ public class SleepFragment extends Fragment {
 
             }
         });
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged(); //change list view automatic
 
 
         Button addbtn = getView().findViewById(R.id.add_sleep_btn);
@@ -113,6 +115,8 @@ public class SleepFragment extends Fragment {
             }
         });
 
+
+        // optional :: clear history from local (SQLite) and Arraylist (sleep_list)
         Button clr_history = getView().findViewById(R.id.clear_database);
         clr_history.setOnClickListener(new View.OnClickListener() {
             @Override

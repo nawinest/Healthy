@@ -55,12 +55,17 @@ public class SleepFormFragment extends Fragment{
             EditText sleep_start = ((EditText)getView().findViewById(R.id.start_sleep));
             EditText sleep_wakeup = ((EditText)getView().findViewById(R.id.wakeup_time_sleep));
 
+
+            //get database sqlite and query where id is equals to id from bundle
             db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
             String selectQuery = "SELECT * FROM sleep_table WHERE _id = " + id;
+            //set cursor to query row from database
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor != null) {
                 cursor.moveToFirst();
             }
+
+            //set text in textview and edit text
             //0: id , 1 :date , 2 :sleeptime ,3 : wakeuptime , 4 : duration
             sleep_date.setText(cursor.getString(1));
             sleep_start.setText(cursor.getString(2));
@@ -70,10 +75,14 @@ public class SleepFormFragment extends Fragment{
 
 
         dateField = getView().findViewById(R.id.date_sleep);
+
+        //config calendar
         mCurrentDate = Calendar.getInstance();
         mYear = mCurrentDate.get(Calendar.YEAR);
         mMonth = mCurrentDate.get(Calendar.MONTH);
         mDay = mCurrentDate.get(Calendar.DAY_OF_MONTH);
+
+        //display popup Calendar
         dateField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +90,7 @@ public class SleepFormFragment extends Fragment{
             }
         });
 
+        //back to SleepFragment
         Button backPage  = getView().findViewById(R.id.backBtnSleepForm);
         backPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +103,8 @@ public class SleepFormFragment extends Fragment{
             }
         });
 
+
+        //add to local datable (SQlite)
         Button savebtn = getView().findViewById(R.id.save_btn_sleepForm);
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,9 +124,10 @@ public class SleepFormFragment extends Fragment{
                 Log.d("Sleep Form", "content values : " + content);
 
 
-                //insert to SQLite database
+                //insert and update to SQLite database
                 db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
                 if (id == 9999){
+                    //from set id = 9999 at above if user click add it will do this statement (insert statement)
                     db.insert("sleep_table",null,content);
                     Log.d("Sleep Form", "insert : " + db);
                 }
@@ -133,7 +146,7 @@ public class SleepFormFragment extends Fragment{
         });
     }
 
-
+    //Calculate duaraiont sleep time by using sleep time and wakeup time
     public String getDurationTime(String time1 , String time2){
         int diff;
         String[] time_1 = time1.split(":");
@@ -155,6 +168,8 @@ public class SleepFormFragment extends Fragment{
             int day = 1440;
             diff = ((1440 - totaltime1) + totaltime2);
         }
+
+        //find different time
         if(diff < 60){
             different = Math.round(diff%60) + "Minute";
         }else{
@@ -163,6 +178,7 @@ public class SleepFormFragment extends Fragment{
         return  different;
     }
 
+    //for datepicker display
     private void datePickerPopup(final TextView field){
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override

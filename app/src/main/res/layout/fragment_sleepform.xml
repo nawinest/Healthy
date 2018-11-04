@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/date_sleep"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
@@ -28,6 +28,7 @@
         android:ems="10"
         android:hint="วันที่"
         android:inputType="datetime"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backBtnSleepForm" />
@@ -36,28 +37,24 @@
         android:id="@+id/wakeup_time_sleep"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="เวลาตื่นนอน"
         android:inputType="time"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/start_sleep"
+        app:layout_constraintStart_toStartOf="@+id/start_sleep"
         app:layout_constraintTop_toBottomOf="@+id/start_sleep" />
 
     <EditText
         android:id="@+id/start_sleep"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="เวลาเข้านอน"
         android:inputType="time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/date_sleep"
+        app:layout_constraintStart_toStartOf="@+id/date_sleep"
         app:layout_constraintTop_toBottomOf="@+id/date_sleep" />
 
     <Button

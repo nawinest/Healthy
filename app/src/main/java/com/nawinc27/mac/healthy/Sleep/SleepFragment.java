@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.nawinc27.mac.healthy.MenuFragment;
 import com.nawinc27.mac.healthy.R;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class SleepFragment extends Fragment {
     ArrayList<Sleep_info> sleeps = new ArrayList<>();
@@ -52,9 +53,17 @@ public class SleepFragment extends Fragment {
             String wakeuptime = pointer_query.getString(3);
             String duration  = pointer_query.getString(4);
             String sleeptowake = sleeptime + " - " + wakeuptime;
-
             sleeps.add(new Sleep_info(date, sleeptowake , duration));
         }
+
+
+
+        adapter.sort(new Comparator<Sleep_info>() {
+            @Override
+            public int compare(Sleep_info o1, Sleep_info o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
 
         adapter.notifyDataSetChanged();
 

@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -48,12 +50,13 @@ public class SleepFragment extends Fragment {
         final SQLiteDatabase db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
         Cursor pointer_query = db.rawQuery("select * from sleep_table", null);
         while (pointer_query.moveToNext()){
+            int id = pointer_query.getInt(0);
             String date = pointer_query.getString(1);
             String sleeptime = pointer_query.getString(2);
             String wakeuptime = pointer_query.getString(3);
             String duration  = pointer_query.getString(4);
             String sleeptowake = sleeptime + " - " + wakeuptime;
-            sleeps.add(new Sleep_info(date, sleeptowake , duration));
+            sleeps.add(new Sleep_info(id, date, sleeptowake , duration));
         }
 
 
@@ -65,6 +68,24 @@ public class SleepFragment extends Fragment {
             }
         });
 
+
+        sleep_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Sleep_info sleep_item = (Sleep_info) parent.getItemAtPosition(position);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", sleep_item.getId());
+                SleepFormFragment sleepform = new SleepFormFragment();
+                sleepform.setArguments(bundle);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, sleepform)
+                        .addToBackStack(null)
+                        .commit();
+                Log.d("Sleep Fragment", "item click and send bundle");
+
+            }
+        });
         adapter.notifyDataSetChanged();
 
 

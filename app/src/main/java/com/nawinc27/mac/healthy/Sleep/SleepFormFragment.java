@@ -3,6 +3,7 @@ package com.nawinc27.mac.healthy.Sleep;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +32,9 @@ public class SleepFormFragment extends Fragment{
     Calendar mCurrentDate;
     int mYear, mMonth, mDay;
     String dayStr, monthStr;
+    int id = 9999;
+    SQLiteDatabase db;
+    Sleep_info sl;
 
 
     @Nullable
@@ -42,12 +46,25 @@ public class SleepFormFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            id = bundle.getInt("id");
+            Log.d("Sleep form fragment", "Id from bundle : " + Integer.toString(id));
+            TextView sleep_date = ((TextView)getView().findViewById(R.id.date_sleep));
+            EditText sleep_start = ((EditText)getView().findViewById(R.id.start_sleep));
+            EditText sleep_wakeup = ((EditText)getView().findViewById(R.id.wakeup_time_sleep));
+            db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
+
+        }
+
+
+
         dateField = getView().findViewById(R.id.date_sleep);
         mCurrentDate = Calendar.getInstance();
         mYear = mCurrentDate.get(Calendar.YEAR);
         mMonth = mCurrentDate.get(Calendar.MONTH);
         mDay = mCurrentDate.get(Calendar.DAY_OF_MONTH);
-
         dateField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,10 +106,17 @@ public class SleepFormFragment extends Fragment{
 
 
                 //insert to SQLite database
-                SQLiteDatabase db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
-                db.insert("sleep_table",null,content);
+                db = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
+                if (id == 9999){
+                    db.insert("sleep_table",null,content);
+                    Log.d("Sleep Form", "insert : " + db);
+                }
+                else{
+                    db.update("sleep_table", content, "_id = " + id, null);
+                    Log.d("Sleep Form", "update : " + db);
+                }
                 db.close();
-                Log.d("Sleep Form", "insert : " + db);
+
 
                 //if insert success replace fragment with SleepFragment
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view, new SleepFragment()).commit();
@@ -124,17 +148,12 @@ public class SleepFormFragment extends Fragment{
             int day = 1440;
             diff = ((1440 - totaltime1) + totaltime2);
         }
-
         if(diff < 60){
             different = Math.round(diff%60) + "Minute";
         }else{
             different = Math.round(diff/60) + "." + Math.round(diff%60) + "Hour";
-
         }
-
-
         return  different;
-
     }
 
     private void datePickerPopup(final TextView field){

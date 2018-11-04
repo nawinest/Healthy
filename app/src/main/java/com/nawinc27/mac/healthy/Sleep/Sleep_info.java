@@ -1,16 +1,26 @@
 package com.nawinc27.mac.healthy.Sleep;
 
 public class Sleep_info {
+    int id;
     String time ;
     String sleep_time ;
     String date;
 
-    public Sleep_info(String date, String time , String duration){
+
+
+    public Sleep_info(int id, String date, String time , String duration){
+        this.id = id;
         this.date = date;
         this.time = time;
         this.sleep_time = duration;
     }
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getTime() {
         return time;
     }

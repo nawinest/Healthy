@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.nawinc27.mac.healthy.Post.PostFragment;
 import com.nawinc27.mac.healthy.Sleep.SleepFragment;
 import com.nawinc27.mac.healthy.Weight.WeightFragment;
 
@@ -26,6 +27,7 @@ public class MenuFragment extends Fragment {
         menu.add("Weight");
         menu.add("Setup");
         menu.add("Sleep");
+        menu.add("Post");
         menu.add("Sign Out");
     }
 
@@ -55,6 +57,9 @@ public class MenuFragment extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view,new LoginFragment()).commit();
                 } else if (_menuP.equals("Sleep")){
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view,new SleepFragment()).commit();
+
+                }else if (_menuP.equals("Post")){
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_view,new PostFragment()).commit();
 
                 }
             }

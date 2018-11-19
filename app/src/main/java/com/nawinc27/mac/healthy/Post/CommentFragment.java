@@ -47,7 +47,54 @@ public class CommentFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_comment, container , false);
     }
 
-    
+    public void beginTaskCallComment(final int id){
+        //user async because when i run it on main thread it show some error
+        AsyncTask task = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                OkHttpClient client = new OkHttpClient();
+                String url = "https://jsonplaceholder.typicode.com/posts/"+id+"/comments";//id from bundle
+                Request request = new Request.Builder().url(url).build();
+                Response response = null; //delare response
+                try {
+                    response = client.newCall(request).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    result = response.body().string();
+                } catch (IOException e) {
+                    Log.d("Comment Fragment", "Exception : " + e.getMessage());
+                }
+                try {
+                    jsonArray = new JSONArray(result);
+                } catch (JSONException e) {
+                    Log.d("Comment Fragment", "Exception : " + e.getMessage());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        Log.d("::::::::::::", ""+obj.getInt("postId"));
+                        Comment cm = new Comment(obj.getInt("postId"),obj.getInt("id"),obj.getString("name")
+                                ,obj.getString("email"),obj.getString("body"));
+                        comments.add(cm);
+                    }
+                    initSetList();
+                }
+                catch (JSONException e)
+                {
+                    Log.d("Comment Fragment", "Exception : " + e.getMessage());
+                }
+            }
+        };
+        task.execute();
+    }
 
     public void initSetList(){
         ListView comment_list = getActivity().findViewById(R.id.comment_list);
